@@ -1,10 +1,12 @@
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import cookieSession from 'cookie-session';
 import express from 'express';
 import path from 'path';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import cookieSession from 'cookie-session';
+
+import reactRenderer from './routes/reactRenderer.js';
 
 const app = express();
 
@@ -21,6 +23,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cookieSession({ secret: 'secretcat' }));
 app.use(express.static(path.join(__dirname, 'public')));
+
+import dashboardRoutes from './react/dashboard/routes.jsx';
+app.use('/dashboard', reactRenderer(dashboardRoutes));
+
+import accountRoutes from './react/account/routes.jsx';
+app.use('/account', reactRenderer(accountRoutes));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
