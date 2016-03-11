@@ -5,6 +5,7 @@ export default class SideBar extends Component {
     render () {
         return (
             <div className="side-bar">
+                <a href="/auth/logout">登出</a>
                 <h3>Dashboard</h3>
                 <ul>
                     <li><HyperLink to="/dashboard">Dashboard</HyperLink></li>

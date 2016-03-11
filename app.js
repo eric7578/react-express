@@ -6,6 +6,7 @@ import path from 'path';
 import favicon from 'serve-favicon';
 import logger from 'morgan';
 
+import auth, { initialize, loginCheck, loginRedirect } from './routes/auth.js';
 import reactRenderer from './routes/reactRenderer.js';
 
 const app = express();
@@ -24,6 +25,15 @@ app.use(cookieParser());
 app.use(cookieSession({ secret: 'secretcat' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// 初始化登入驗證
+initialize(app);
+
+// 未登入前可用頁面
+app.get('/', loginRedirect(), (req, res) => res.render('index'));
+app.use('/auth', auth());
+app.use(loginCheck());
+
+// 登入後可用頁面
 import dashboardRoutes from './react/dashboard/routes.jsx';
 app.use('/dashboard', reactRenderer(dashboardRoutes));
 
