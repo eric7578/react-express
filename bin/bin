@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+require('babel-core/register')({
+    presets: ['es2015', 'react'],
+    plugins: [
+        "transform-async-to-generator",
+        "transform-decorators-legacy"
+    ]
+});
+
+require("babel-polyfill");
+
+require('./www');
